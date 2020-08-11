@@ -1,0 +1,10 @@
+# build folder
+build
+cmake-build*
+
+# IDE setting folder
+.vscode
+.idea
+
+# log files
+*.log
