@@ -1,3 +1,7 @@
+//
+// Created by Ezra on 8/11/2020.
+//
+
 #ifndef __ENCRYPTION__
 #define __ENCRYPTION__
 

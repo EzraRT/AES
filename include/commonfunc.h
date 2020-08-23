@@ -1,5 +1,5 @@
 //
-// Created by szc26 on 8/11/2020.
+// Created by Ezra on 8/11/2020.
 //
 
 #ifndef EASY_AES_COMMONFUNC_H
