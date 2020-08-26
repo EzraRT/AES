@@ -4,8 +4,9 @@
 
 #include "encryption.h"
 #include "commonfunc.h"
+#include<iostream>
 
-
+//sBox 用于进行字符映射
 unsigned char sBox[256] =
         { /*    0     1     2     3     4     5     6     7     8     9     a     b     c     d     e     f */
                 0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5, 0x30, 0x01, 0x67, 0x2b, 0xfe, 0xd7, 0xab, 0x76, /*0*/
@@ -26,6 +27,7 @@ unsigned char sBox[256] =
                 0x8c, 0xa1, 0x89, 0x0d, 0xbf, 0xe6, 0x42, 0x68, 0x41, 0x99, 0x2d, 0x0f, 0xb0, 0x54, 0xbb, 0x16  /*f*/
         };
 
+//行移位 第r行每个数据右移r位
 void ShiftRows(unsigned char state[][4]) {
     unsigned char t[4];
     int r, c;
@@ -39,6 +41,8 @@ void ShiftRows(unsigned char state[][4]) {
     }
 }
 
+// 字符映射 以sbox中的对应值来代替state矩阵中的数据
+// 此处做法为：拆分数据的高四位与低四位，使用高四位代表行，低四位代表列，予sbox中查找对应值
 void SubBytes(unsigned char state[][4]) {
     int r, c;
     for (r = 0; r < 4; r++) {
@@ -48,34 +52,6 @@ void SubBytes(unsigned char state[][4]) {
     }
 }
 
-void KeyExpansion(unsigned char *key, unsigned char w[][4][4]) {
-    int i, j, r, c;
-    unsigned char rc[] = {0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36};
-    for (r = 0; r < 4; r++) {
-        for (c = 0; c < 4; c++) {
-            w[0][r][c] = key[r + c * 4];
-        }
-    }
-    for (i = 1; i <= 10; i++) {
-        for (j = 0; j < 4; j++) {
-            unsigned char t[4];
-            for (r = 0; r < 4; r++) {
-                t[r] = j ? w[i][r][j - 1] : w[i - 1][r][3];
-            }
-            if (j == 0) {
-                unsigned char temp = t[0];
-                for (r = 0; r < 3; r++) {
-                    t[r] = sBox[t[(r + 1) % 4]];
-                }
-                t[3] = sBox[temp];
-                t[0] ^= rc[i - 1];
-            }
-            for (r = 0; r < 4; r++) {
-                w[i][r][j] = w[i - 1][r][j] ^ t[r];
-            }
-        }
-    }
-}
 
 void MixColumns(unsigned char state[][4]) {
     unsigned char t[4];
@@ -97,18 +73,28 @@ unsigned char *Cipher(unsigned char *input) {
     unsigned char state[4][4];
     int i, r, c;
 
+    //使用前16个字符来填充state矩阵
     for (r = 0; r < 4; r++) {
         for (c = 0; c < 4; c++) {
             state[r][c] = input[c * 4 + r];
         }
     }
+    /* 00 04 08 12
+     * 01 05 09 13
+     * 02 06 10 14
+     * 03 07 11 15
+     */
 
+
+    //密匙轮加
     AddRoundKey(state, w[0]);
 
     for (i = 1; i <= 10; i++) {
         SubBytes(state);
         ShiftRows(state);
-        if (i != 10)MixColumns(state);
+        if (i != 10) {
+            MixColumns(state);
+        }
         AddRoundKey(state, w[i]);
     }
 
@@ -121,22 +107,16 @@ unsigned char *Cipher(unsigned char *input) {
     return input;
 }
 
-std::string encryption(std::string raw_msg) {
-    int str_len = raw_msg.length();
-    int reserve_len = 128;
-    while (reserve_len < str_len) {
-        reserve_len <<= 1;
-    }
-    auto str = new unsigned char[reserve_len];
-
-    strcpy((char *) str, raw_msg.c_str());
-
-    int i;
-    for (int i = 0; i < str_len; i += 16) {
-        Cipher(str + i);
+std::stringstream encryption(std::istream &raw_msg, std::string key) {
+    KeyExpansion(reinterpret_cast<const unsigned char *>(key.c_str()), w);
+    std::stringstream result;
+    unsigned char str[16];
+    while (raw_msg.peek() != EOF) {
+        make_empty(str, 16);
+        raw_msg.read(reinterpret_cast<char *>(str), 16);
+        Cipher(str);
+        result.write(reinterpret_cast<char *>(str), 16);
     }
 
-    std::string result((char *) str);
-    delete[] str;
     return result;
 }

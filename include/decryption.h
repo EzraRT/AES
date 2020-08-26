@@ -8,6 +8,6 @@
 #include "aes_defs.h"
 #include <string>
 
-std::string decryption(std::string raw_msg);
+std::string decryption(std::ifstream &raw_msg, std::string key);
 
 #endif //__DECRYPTION__

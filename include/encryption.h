@@ -8,7 +8,8 @@
 #include "aes_defs.h"
 #include <string>
 #include"commonfunc.h"
+#include<sstream>
 
-std::string encryption(std::string raw_msg);
+std::stringstream encryption(std::istream &raw_msg, std::string key);
 
 #endif //__ENCRYPTION__

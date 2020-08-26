@@ -4,6 +4,9 @@
 
 #include "decryption.h"
 #include "commonfunc.h"
+#include<sstream>
+#include<fstream>
+#include<algorithm>
 
 unsigned char invsBox[256] =
         { /*    0     1     2     3     4     5     6     7     8     9     a     b     c     d     e     f        */
@@ -35,6 +38,8 @@ void InvSubBytes(unsigned char state[][4]) {
     }
 }
 
+
+//逆行移位 第r行每个数据左移r位
 void InvShiftRows(unsigned char state[][4]) {
     unsigned char t[4];
     int r, c;
@@ -93,20 +98,26 @@ unsigned char *InvCipher(unsigned char *input) {
     return input;
 }
 
-std::string decryption(std::string raw_msg) {
-    int str_len = raw_msg.length();
-    int reserve_len = 128;
-    while (reserve_len < str_len) {
-        reserve_len <<= 1;
+int real_len(unsigned char str[]) {
+    int i = 0;
+    for (i = 0; i < 16; ++i) {
+        if (!str[i])
+            break;
     }
-    auto str = new unsigned char[reserve_len];
-    strcpy((char *) str, raw_msg.c_str());
+    return i;
+}
 
-    int i;
-    for (i = 0; i < str_len; i += 16) {
-        InvCipher(str + i);
+std::string decryption(std::ifstream &raw_msg, std::string key) {
+    KeyExpansion(reinterpret_cast<const unsigned char *>(key.c_str()), w);
+    std::stringstream tempstr;
+    unsigned char str[16];
+
+    while (raw_msg.peek() != EOF) {
+        make_empty(str, 16);
+        raw_msg.read(reinterpret_cast<char *>(str), 16);
+        InvCipher(str);
+        tempstr.write(reinterpret_cast<char *>(str), real_len(str));
     }
-    std::string result((char *) str);
-    delete[] str;
-    return result;
+
+    return tempstr.str();
 }
