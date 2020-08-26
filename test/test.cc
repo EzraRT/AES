@@ -5,21 +5,30 @@
 #include <iostream>
 #include "encryption.h"
 #include "decryption.h"
+#include<fstream>
 
 using namespace std;
 
 int main(int argc, char const *argv[]) {
-    char raw_str[128] = {0};
+    char key[] = "1234567898765430";
+    ifstream file("input.txt");
 
-    for (int i = 32; i < 127; ++i) {
-        raw_str[i - 32] = i;
+    if (file.fail()) {
+        cerr << "file not exist" << endl;
+        exit(-1);
     }
-    cout << raw_str << endl;
-    string raw(raw_str);
-    string str = encryption(raw);
-    cout << str << endl;
 
-    cout << decryption(str) << endl;
+    auto stream = encryption(file, key);
+    file.close();
+
+    ofstream output("output.bin", ios::binary);
+    output << stream.rdbuf();
+    output.close();
+
+    ifstream input("output.bin", ios::binary);
+    auto string = decryption(input, key);
+    cout << string << endl;
+    input.close();
 
     return 0;
 }
