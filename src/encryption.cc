@@ -5,6 +5,7 @@
 #include "encryption.h"
 #include "commonfunc.h"
 #include <iostream>
+#include <cstring>
 
 //sBox 用于进行字符映射
 unsigned char sBox[256] =
