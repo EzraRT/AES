@@ -5,7 +5,7 @@
 #include <iostream>
 #include "encryption.h"
 #include "decryption.h"
-#include<fstream>
+#include <fstream>
 
 using namespace std;
 
