@@ -107,7 +107,11 @@ int real_len(unsigned char str[]) {
 }
 
 std::string decryption(std::ifstream &raw_msg, std::string key) {
-    KeyExpansion(reinterpret_cast<const unsigned char *>(key.c_str()), w);
+    unsigned char key_str[16];
+    memset(key_str, 0, sizeof(key_str));
+    strncpy(reinterpret_cast<char *>(key_str), key.c_str(), sizeof(char) * key.length());
+    KeyExpansion(key_str, w);
+
     std::stringstream tempstr;
     unsigned char str[16];
 
