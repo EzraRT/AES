@@ -10,7 +10,7 @@
 using namespace std;
 
 int main(int argc, char const *argv[]) {
-    char key[] = "1234567898765430";
+    char key[] = "123456789";
     ifstream file("input.txt");
 
     if (file.fail()) {
