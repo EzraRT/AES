@@ -9,7 +9,8 @@
 
 using namespace std;
 
-int main(int argc, char const *argv[]) {
+int main(int argc, char const* argv[])
+{
     char key[] = "123456789";
     ifstream file("input.txt");
 

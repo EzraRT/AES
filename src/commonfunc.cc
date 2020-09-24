@@ -2,14 +2,15 @@
 // Created by Ezra on 8/11/2020.
 //
 
-#include"commonfunc.h"
-#include"cstring"
+#include "commonfunc.h"
+#include "cstring"
 
 extern unsigned char sBox[256];
 
 unsigned char w[AES_ROUNDS + 1][4][4];
 
-unsigned char FFmul(unsigned char a, unsigned char b) {
+unsigned char FFmul(unsigned char a, unsigned char b)
+{
     unsigned char bw[4];
     unsigned char res = 0;
     int i;
@@ -29,7 +30,8 @@ unsigned char FFmul(unsigned char a, unsigned char b) {
 }
 
 //轮密匙加
-void AddRoundKey(unsigned char state[][4], unsigned char k[][4]) {
+void AddRoundKey(unsigned char state[][4], unsigned char k[][4])
+{
     int r, c;
     for (c = 0; c < 4; c++) {
         for (r = 0; r < 4; r++) {
@@ -38,9 +40,10 @@ void AddRoundKey(unsigned char state[][4], unsigned char k[][4]) {
     }
 }
 
-void KeyExpansion(const unsigned char *key, unsigned char kw[][4][4]) {
+void KeyExpansion(const unsigned char* key, unsigned char kw[][4][4])
+{
     int i, j, r, c;
-    unsigned char rc[] = {0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36};
+    unsigned char rc[] = { 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36 };
     for (r = 0; r < 4; r++) {
         for (c = 0; c < 4; c++) {
             kw[0][r][c] = key[r + c * 4];
@@ -67,7 +70,7 @@ void KeyExpansion(const unsigned char *key, unsigned char kw[][4][4]) {
     }
 }
 
-
-void make_empty(unsigned char str[16], size_t size) {
+void make_empty(unsigned char str[16], size_t size)
+{
     std::memset(str, 0, sizeof(unsigned char) * size);
 }
