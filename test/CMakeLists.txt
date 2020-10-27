@@ -1,6 +1,6 @@
 project(AES_test)
 
 find_library(Easy_AES REQUIRED)
-add_executable(AES_Test test.cc)
+add_executable(AES test.cc)
 
-target_link_libraries(AES_Test Easy_AES)
+target_link_libraries(AES Easy_AES)
