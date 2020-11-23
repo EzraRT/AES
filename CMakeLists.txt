@@ -8,4 +8,4 @@ aux_source_directory(${SRC} SRC_FILES)
 
 add_library(Easy_AES ${SRC_FILES})
 
-add_subdirectory(test)
+add_subdirectory(command_line_tool)
