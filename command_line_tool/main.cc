@@ -32,7 +32,7 @@ void print_usage()
 
 int main(int argc, char const* argv[])
 {
-    char key_default[] = "123456789";
+    char key_default[] = "12345678";
     char* key = key_default;
 
     if (argc < 2) {
