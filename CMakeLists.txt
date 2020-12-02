@@ -8,6 +8,8 @@ aux_source_directory(${SRC} SRC_FILES)
 
 add_library(Easy_AES ${SRC_FILES})
 
+find_package(Boost COMPONENTS system filesystem unit_test_framework REQUIRED)
+
 add_subdirectory(command_line_tool)
 add_subdirectory(test)
 
