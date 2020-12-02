@@ -109,7 +109,7 @@ int real_len(unsigned char str[])
     return i;
 }
 
-std::string decryption(std::ifstream& raw_msg, std::string key)
+std::stringstream decryption(std::ifstream& raw_msg, std::string key)
 {
     unsigned char key_str[16];
     memset(key_str, 0, sizeof(key_str));
@@ -126,5 +126,5 @@ std::string decryption(std::ifstream& raw_msg, std::string key)
         tempstr.write(reinterpret_cast<char*>(str), real_len(str));
     }
 
-    return tempstr.str();
+    return tempstr;
 }
