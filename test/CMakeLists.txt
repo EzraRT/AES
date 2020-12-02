@@ -1,4 +1,4 @@
-message("BOOST_ROOT: $ENV{BOOST_ROOT_1_72_0}")
+message("$(ls /opt/hostedtoolcache/boost/1.72.0/x64)")
 find_package(Boost REQUIRED COMPONENTS system filesystem unit_test_framework)
 include_directories(include ${Boost_INCLUDE_DIRS})
 
