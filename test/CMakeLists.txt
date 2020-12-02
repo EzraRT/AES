@@ -1,4 +1,12 @@
-message("$(ls /opt/hostedtoolcache/boost/1.72.0/x64)")
+
+execute_process(COMMAND ls /opt/hostedtoolcache/boost/1.72.0/x64　　　 #执行shell命令 ls
+　　　　　　　　OUTPUT_VARIABLE LS_OUT　　　　　　　　　　　　　　　　#将ls的输出赋值给LS_OUT
+)
+
+execute_process(COMMAND cat /home/runner/work/AES/build/CMakeFiles/CMakeOutput.log　　　 #执行shell命令 ls
+　　　　　　　　OUTPUT_VARIABLE CAT_OUT　　　　　　　　　　　　　　　　#将ls的输出赋值给LS_OUT
+)
+message("${LS_OUT},${CAT_OUT}")
 find_package(Boost REQUIRED COMPONENTS system filesystem unit_test_framework)
 include_directories(include ${Boost_INCLUDE_DIRS})
 
