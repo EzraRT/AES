@@ -1,8 +1,4 @@
 cmake_minimum_required(VERSION 3.0.0)
-
-set(CMAKE_TOOLCHAIN_FILE "D:\\Tools\\vcpkg\\scripts\\buildsystems\\vcpkg.cmake"
-  CACHE STRING "Vcpkg toolchain file")
-
 project(Easy_AES VERSION 0.1.0)
 
 set(SRC src)
