@@ -1,5 +1,5 @@
 
-execute_process(COMMAND ls /opt/hostedtoolcache/boost/1.72.0/x64　　　 #执行shell命令 ls
+execute_process(COMMAND ls $ENV{BOOST_ROOT_1_72_0}　　　 #执行shell命令 ls
 　　　　　　　　OUTPUT_VARIABLE LS_OUT　　　　　　　　　　　　　　　　#将ls的输出赋值给LS_OUT
 )
 
