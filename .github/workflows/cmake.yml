@@ -11,7 +11,7 @@ jobs:
     # The CMake configure and build commands are platform agnostic and should work equally
     # well on Windows or Mac.  You can convert this to a matrix build if you need
     # cross-platform coverage.
-    # See: https://docs.github.com/en/actions/configuring-and-managing-workflows/configuring-a-workflow#configuring-a-build-matrix
+    # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
     runs-on: ubuntu-latest
 
     steps:
@@ -20,7 +20,14 @@ jobs:
     - name: Create Build Environment
       # Some projects don't allow in-source building, so create a separate build directory
       # We'll use this as our working directory for all subsequent commands
-      run: cmake -E make_directory ${{runner.workspace}}/build
+      run:
+      $url = "https://github.com/actions/boost-versions/releases/download/1.69.0-20200608.1/boost-1.69.0-linux-16.04-gcc-x64.tar.gz"
+      (New-Object System.Net.WebClient).DownloadFile($url, "/tmp/boost.tar.gz")
+      mkdir "/tmp/boost"
+      tar -xzf "/tmp/boost.tar.gz" -C "/tmp/boost"
+      Push-Location -Path "/tmp/boost"
+      Invoke-Expression "bash ./setup.sh"
+      cmake -E make_directory ${{runner.workspace}}/build
 
     - name: Configure CMake
       # Use a bash shell so we can use the same syntax for environment variable
