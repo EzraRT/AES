@@ -1,4 +1,4 @@
-find_package(Boost COMPONENTS system filesystem unit_test_framework REQUIRED)
+find_package(Boost 1.72.0 COMPONENTS system filesystem unit_test_framework REQUIRED)
  
 include_directories(include ${Boost_INCLUDE_DIRS})
 
