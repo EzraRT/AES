@@ -12,4 +12,4 @@ add_subdirectory(command_line_tool)
 add_subdirectory(test)
 
 enable_testing()
-add_test(NAME mytest COMMAND Test)
+add_test(NAME mytest COMMAND Test-bin)
