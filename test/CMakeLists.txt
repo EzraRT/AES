@@ -1,5 +1,7 @@
-
- 
+find_package(Boost COMPONENTS system filesystem unit_test_framework REQUIRED)
+if (NOT Boost_FOUND)
+    message("Not found Boost")
+endif ()
 include_directories(include ${Boost_INCLUDE_DIRS})
 
 add_executable(Test-bin test.cc)
