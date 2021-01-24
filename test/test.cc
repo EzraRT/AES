@@ -46,3 +46,8 @@ BOOST_AUTO_TEST_CASE(First_Test_Case)
     infile.close();
     BOOST_CHECK_EQUAL(teststr, result);
 }
+
+int main(int argc, char const* argv[])
+{
+
+}
