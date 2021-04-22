@@ -113,7 +113,7 @@ std::stringstream decryption(std::ifstream& raw_msg, std::string key)
 {
     unsigned char key_str[16];
     memset(key_str, 0, sizeof(key_str));
-    strncpy(reinterpret_cast<char*>(key_str), key.c_str(), sizeof(char) * key.length());
+    strncpy(reinterpret_cast<char*>(key_str), key.c_str(), (key.length() > 16 ? 16 * sizeof(char) : key.length() * sizeof(char)));
     KeyExpansion(key_str, w);
 
     std::stringstream tempstr;
