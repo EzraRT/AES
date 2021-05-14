@@ -26,7 +26,7 @@ string get_output_filename(string input_filename)
 void print_usage()
 {
     cout << "usage :" << endl;
-    cout << "AES ${filename} [-p ${password}]" << endl;
+    cout << "aes-tool ${filename} [-p ${password}]" << endl;
     cout << "[note] The default password is 12345678" << endl;
 }
 
@@ -50,11 +50,17 @@ int main(int argc, char const* argv[])
 
     if (argc == 4) {
         // 指定了密码
-        char* key_temp;
-        if (!strcmp(argv[2], "-p ")) {
+        char* key_temp = key_default;
+        if (!strcmp(argv[2], "-p")) {
+            cout << "use password as " << argv[3] << endl;
             key_temp = (char*)calloc(strlen(argv[3]) + 1, sizeof(char));
+            strcpy(key_temp, argv[3]);
+        } else {
+            cout << "use password as " << key_default << endl;
         }
         key = key_temp;
+    } else {
+        cout << "use password as " << key_default << endl;
     }
 
     auto stream = encryption(file, key);
